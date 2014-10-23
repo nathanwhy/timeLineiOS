@@ -10,7 +10,9 @@
 #import "TimeLineViewControl.h"
 
 @interface ViewController ()
-
+{
+    TimeLineViewControl *_timeline;
+}
 @end
 
 @implementation ViewController
@@ -27,7 +29,22 @@
     timeline.center = self.view.center;
     [self.view addSubview:timeline];
     
-    // Do any additional setup after loading the view, typically from a nib.
+    _timeline = timeline;
+    
+    timeline.timeLineBlock = ^ (NSInteger index) {
+        
+        NSLog(@"you click %@--%@",times[index], descriptions[index]);
+    };
+    
+    // add button
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(50, 400, 50, 50)];
+    button.backgroundColor = [UIColor redColor];
+    [button addTarget:self action:@selector(click) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:button];
+}
+
+- (void)click{
+    _timeline.status = 5;
 }
 
 - (void)didReceiveMemoryWarning {

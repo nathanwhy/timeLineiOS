@@ -170,6 +170,12 @@ const float VIEW_WIDTH = 225.0;
         lastLabel = label;
         
         [self.labelDscriptionsArray addObject:label];
+        
+        // add Gesture
+        [label setUserInteractionEnabled:YES];
+        [label addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapTimeDescriptionLabel:)]];
+        
+        [self.labelDscriptionsArray addObject:label];
         i++;
     }
     
@@ -368,6 +374,34 @@ const float VIEW_WIDTH = 225.0;
     }];
     
     [super updateConstraints];
+}
+
+- (void)setStatus:(int)status {
+    _status = status;
+    for (int i = 0; i < status; i ++) {
+        
+        UIColor *strokeColor = i < status ? [UIColor orangeColor] : [UIColor lightGrayColor];
+        CAShapeLayer *lineLayer = layers[i];
+        lineLayer.strokeColor = strokeColor.CGColor;
+        
+        CAShapeLayer *circleLayer = circleLayers[i];
+        circleLayer.strokeColor = strokeColor.CGColor;
+        
+    }
+    
+    [self startAnimatingLayers:circleLayers forStatus:status];
+    
+}
+
+#pragma mark - gesture
+- (void)tapTimeDescriptionLabel:(UITapGestureRecognizer *)recognizer {
+    UILabel *labelTap = (UILabel *)recognizer.view;
+    NSInteger index = [self.labelDscriptionsArray indexOfObject:labelTap];
+    
+    if (self.timeLineBlock) {
+        self.timeLineBlock(index);
+    }
+    
 }
 
 @end

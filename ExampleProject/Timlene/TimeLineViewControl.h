@@ -11,6 +11,8 @@
 @interface TimeLineViewControl : UIView {
     CGFloat viewheight;
 }
+@property (nonatomic, copy)   void (^timeLineBlock) (NSInteger index);
+@property (nonatomic, assign) int status;
 
 @property(nonatomic, assign) CGFloat viewheight;
 
